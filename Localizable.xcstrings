@@ -1,0 +1,1394 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%@: **%@**" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: **%2$@**"
+          }
+        }
+      }
+    },
+    "%lld People" : {
+
+    },
+    "+91" : {
+
+    },
+    "~ %@" : {
+
+    },
+    "₹%@" : {
+
+    },
+    "₹%lld" : {
+
+    },
+    "0" : {
+
+    },
+    "0.00" : {
+
+    },
+    "About" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विवरण"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "माहिती"
+          }
+        }
+      }
+    },
+    "Add New" : {
+
+    },
+    "Additional feedback (optional)" : {
+
+    },
+    "Address" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पत्ता"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पत्ता"
+          }
+        }
+      }
+    },
+    "Address / Location (%@)" : {
+
+    },
+    "Air Conditioning (AC)" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एयर कंडीशनिंग (AC)"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एयर कंडीशनिंग (AC)"
+          }
+        }
+      }
+    },
+    "All Photos" : {
+
+    },
+    "Amenities & Rental Rules" : {
+
+    },
+    "Apple" : {
+
+    },
+    "April" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अप्रैल"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एप्रिल"
+          }
+        }
+      }
+    },
+    "August" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अगस्त"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऑगस्ट"
+          }
+        }
+      }
+    },
+    "Available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपलब्ध"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपलब्ध"
+          }
+        }
+      }
+    },
+    "Available Guest Rooms: " : {
+
+    },
+    "Basic Details (%@)" : {
+
+    },
+    "Bikes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाइक"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दुचाकी"
+          }
+        }
+      }
+    },
+    "Bikes: " : {
+
+    },
+    "Booked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुक किया गया"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुक केले"
+          }
+        }
+      }
+    },
+    "Booked Slots" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुक किए गए स्लॉट"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुक केलेले स्लॉट"
+          }
+        }
+      }
+    },
+    "Call Now" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अभी कॉल करें"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आत्ताच कॉल करा"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+
+    },
+    "Cancellation Policy" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रद्द करने की नीति"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रद्द करण्याचे धोरण"
+          }
+        }
+      }
+    },
+    "Capacity & Logistics" : {
+
+    },
+    "Cars" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कारें"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गाड्या"
+          }
+        }
+      }
+    },
+    "Cars: " : {
+
+    },
+    "Change phone number?" : {
+
+    },
+    "Confirm Location" : {
+
+    },
+    "CONFIRMED BOOKING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुष्टि की गई बुकिंग्स"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निश्चित बुकिंग्स"
+          }
+        }
+      }
+    },
+    "Create Booking" : {
+
+    },
+    "Customer Service" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ग्राहक सेवा"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ग्राहक सेवा"
+          }
+        }
+      }
+    },
+    "Data Entry Language" : {
+
+    },
+    "December" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दिसंबर"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिसेंबर"
+          }
+        }
+      }
+    },
+    "Delete Booking" : {
+
+    },
+    "Description of the hall in %@..." : {
+
+    },
+    "Directions" : {
+
+    },
+    "Discover" : {
+
+    },
+    "DJ & Sound System Setup" : {
+
+    },
+    "Done" : {
+
+    },
+    "e.g. 5000" : {
+
+    },
+    "Edit Details" : {
+
+    },
+    "Electricity Cost (Per Unit)" : {
+
+    },
+    "Electricity/Unit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बिजली/यूनिट"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वीज/युनिट"
+          }
+        }
+      }
+    },
+    "Email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ईमेल"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ईमेल"
+          }
+        }
+      }
+    },
+    "English" : {
+
+    },
+    "Enter 6-digit OTP" : {
+
+    },
+    "Enter mobile number" : {
+
+    },
+    "Enter the 6-digit code sent to \n%@" : {
+
+    },
+    "External Catering" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहरी कैटरिंग"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहेरील केटरिंग"
+          }
+        }
+      }
+    },
+    "External Catering Allowed" : {
+
+    },
+    "Facilities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुविधाएँ"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुविधा"
+          }
+        }
+      }
+    },
+    "FAQ & Help" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अक्सर पूछे जाने वाले प्रश्न और सहायता"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वारंवार विचारले जाणारे प्रश्न आणि मदत"
+          }
+        }
+      }
+    },
+    "February" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़रवरी"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फेब्रुवारी"
+          }
+        }
+      }
+    },
+    "Flexible" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आसान नियम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सोपे नियम"
+          }
+        }
+      }
+    },
+    "Fri" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुक्र"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुक्र"
+          }
+        }
+      }
+    },
+    "From" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "से"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासून"
+          }
+        }
+      }
+    },
+    "Full Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूरा नाम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्ण नाव"
+          }
+        }
+      }
+    },
+    "Gallery" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गैलरी"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गैलरी"
+          }
+        }
+      }
+    },
+    "Generator / Power Backup" : {
+
+    },
+    "Geolocation" : {
+
+    },
+    "Google" : {
+
+    },
+    "Hall Name (%@)" : {
+
+    },
+    "Hall Size" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हॉल का आकार"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हॉलचा आकार"
+          }
+        }
+      }
+    },
+    "hello" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hindiHello"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "helloMarathi"
+          }
+        },
+        "mr-IN" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "marathiHello"
+          }
+        }
+      }
+    },
+    "Help & FAQ" : {
+
+    },
+    "January" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जनवरी"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जानेवारी"
+          }
+        }
+      }
+    },
+    "July" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जुलाई"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जुलै"
+          }
+        }
+      }
+    },
+    "June" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जून"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जून"
+          }
+        }
+      }
+    },
+    "Key" : {
+      "extractionState" : "manual"
+    },
+    "Key 1" : {
+      "extractionState" : "manual"
+    },
+    "Key 2" : {
+      "extractionState" : "manual"
+    },
+    "Key 3" : {
+      "extractionState" : "manual"
+    },
+    "Key 4" : {
+      "extractionState" : "manual"
+    },
+    "Key 5" : {
+      "extractionState" : "manual"
+    },
+    "Key 6" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुक किए गए स्लॉट"
+          }
+        }
+      }
+    },
+    "Key 7" : {
+      "extractionState" : "manual"
+    },
+    "Key 8" : {
+      "extractionState" : "manual"
+    },
+    "Language" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "भाषा"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "भाषा"
+          }
+        }
+      }
+    },
+    "Latitude" : {
+
+    },
+    "Location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्थान"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्थान"
+          }
+        }
+      }
+    },
+    "Log Out" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉग आउट"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉग आउट"
+          }
+        }
+      }
+    },
+    "Longitude" : {
+
+    },
+    "Main Screen Background Image" : {
+
+    },
+    "March" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मार्च"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मार्च"
+          }
+        }
+      }
+    },
+    "May" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मई"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मे"
+          }
+        }
+      }
+    },
+    "Media & Photos" : {
+
+    },
+    "Mobile Number" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मोबाईल नंबर"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मोबाईल नंबर"
+          }
+        }
+      }
+    },
+    "Moderate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मध्यम नियम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मध्यम नियम"
+          }
+        }
+      }
+    },
+    "Mon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सोम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सोम"
+          }
+        }
+      }
+    },
+    "More Hall Images" : {
+
+    },
+    "No Results Found" : {
+
+    },
+    "No Reviews Yet" : {
+
+    },
+    "November" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नवंबर"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोव्हेंबर"
+          }
+        }
+      }
+    },
+    "October" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अक्टूबर"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऑक्टोबर"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ठीक है"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ठीक आहे"
+          }
+        }
+      }
+    },
+    "or continue with" : {
+
+    },
+    "Owner Contact Number" : {
+
+    },
+    "Parking Capacity" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पार्किंग क्षमता"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पार्किंग क्षमता"
+          }
+        }
+      }
+    },
+    "People" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लोग"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लोक"
+          }
+        }
+      }
+    },
+    "Personal Information" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "व्यक्तिगत जानकारी"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वैयक्तिक माहिती"
+          }
+        }
+      }
+    },
+    "Pinpoint Location" : {
+
+    },
+    "Please connect to server" : {
+
+    },
+    "Power Backup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पावर बैकअप"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वीज बॅकअप"
+          }
+        }
+      }
+    },
+    "Preferences" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राथमिकताएँ"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राधान्ये"
+          }
+        }
+      }
+    },
+    "Price Per Day" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रति दिन कीमत"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रति दिवस किंमत"
+          }
+        }
+      }
+    },
+    "Pricing & Utilities" : {
+
+    },
+    "Provide precise coordinates or tap to pinpoint on map view." : {
+
+    },
+    "Rate and review" : {
+
+    },
+    "Refresh" : {
+
+    },
+    "Refresh Bookings" : {
+
+    },
+    "Reviews" : {
+
+    },
+    "Rooms" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कमरे"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोल्या"
+          }
+        }
+      }
+    },
+    "Rooms Available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपलब्ध कमरे"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपलब्ध खोल्या"
+          }
+        }
+      }
+    },
+    "Rs." : {
+
+    },
+    "Sat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शनि"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शनि"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेव करें"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेव करा"
+          }
+        }
+      }
+    },
+    "Saved Halls" : {
+
+    },
+    "Search topics or keywords..." : {
+
+    },
+    "Seating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बैठने की व्यवस्था"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बसण्याची व्यवस्था"
+          }
+        }
+      }
+    },
+    "Seating Capacity" : {
+
+    },
+    "Security Code" : {
+
+    },
+    "See All" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सभी देखें"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सर्व पहा"
+          }
+        }
+      }
+    },
+    "Select Appointment Slot" : {
+
+    },
+    "Select Input Language" : {
+
+    },
+    "Selected Coordinates" : {
+
+    },
+    "Send OTP" : {
+
+    },
+    "September" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सितंबर"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सप्टेंबर"
+          }
+        }
+      }
+    },
+    "Sign in to continue your journey" : {
+
+    },
+    "Sound System" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साउंड सिस्टम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साउंड सिस्टम"
+          }
+        }
+      }
+    },
+    "Specifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विशेषताएँ"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वैशिष्ट्ये"
+          }
+        }
+      }
+    },
+    "sq ft" : {
+
+    },
+    "Strict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सख्त नियम"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कठोर नियम"
+          }
+        }
+      }
+    },
+    "Sun" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रवि"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रवि"
+          }
+        }
+      }
+    },
+    "Thu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गुरु"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गुरु"
+          }
+        }
+      }
+    },
+    "To" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "तक"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पर्यंत"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आज"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आज"
+          }
+        }
+      }
+    },
+    "Try searching for different keywords." : {
+
+    },
+    "Tue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मंगल"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मंगळ"
+          }
+        }
+      }
+    },
+    "Update" : {
+
+    },
+    "Update Booking" : {
+
+    },
+    "Upload Main Cover" : {
+
+    },
+    "Verification" : {
+
+    },
+    "Verify & Proceed" : {
+
+    },
+    "Wed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुध"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुध"
+          }
+        }
+      }
+    },
+    "Welcome Back" : {
+
+    },
+    "Yes" : {
+      "localizations" : {
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हाँ"
+          }
+        },
+        "mr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "होय"
+          }
+        }
+      }
+    },
+    "कारें" : {
+      "extractionState" : "manual"
+    },
+    "मराठी (Marathi)" : {
+
+    },
+    "हिन्दी (Hindi)" : {
+
+    }
+  },
+  "version" : "1.0"
+}

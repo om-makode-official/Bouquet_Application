@@ -6,8 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AC73325F2FCAF7EA002B294E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AC73325E2FCAF7EA002B294E /* Alamofire */; };
+		ACFE6C432FC704220094FA79 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = ACFE6C422FC704220094FA79 /* Localizable.xcstrings */; };
+		ACFE6C5F2FC708C20094FA79 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = ACFE6C5E2FC708C20094FA79 /* FirebaseAuth */; };
+		ACFE6C612FC708C20094FA79 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = ACFE6C602FC708C20094FA79 /* FirebaseFirestore */; };
+		ACFE6C632FC708C20094FA79 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = ACFE6C622FC708C20094FA79 /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		ACFE6C242FC702390094FA79 /* Project_B.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project_B.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACFE6C422FC704220094FA79 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +45,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACFE6C5F2FC708C20094FA79 /* FirebaseAuth in Frameworks */,
+				AC73325F2FCAF7EA002B294E /* Alamofire in Frameworks */,
+				ACFE6C612FC708C20094FA79 /* FirebaseFirestore in Frameworks */,
+				ACFE6C632FC708C20094FA79 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +58,7 @@
 		ACFE6C1B2FC702390094FA79 = {
 			isa = PBXGroup;
 			children = (
+				ACFE6C422FC704220094FA79 /* Localizable.xcstrings */,
 				ACFE6C262FC702390094FA79 /* Project_B */,
 				ACFE6C252FC702390094FA79 /* Products */,
 			);
@@ -78,6 +92,10 @@
 			);
 			name = Project_B;
 			packageProductDependencies = (
+				ACFE6C5E2FC708C20094FA79 /* FirebaseAuth */,
+				ACFE6C602FC708C20094FA79 /* FirebaseFirestore */,
+				ACFE6C622FC708C20094FA79 /* FirebaseStorage */,
+				AC73325E2FCAF7EA002B294E /* Alamofire */,
 			);
 			productName = Project_B;
 			productReference = ACFE6C242FC702390094FA79 /* Project_B.app */;
@@ -104,9 +122,15 @@
 			knownRegions = (
 				en,
 				Base,
+				hi,
+				mr,
 			);
 			mainGroup = ACFE6C1B2FC702390094FA79;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ACFE6C5D2FC708C20094FA79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AC73325D2FCAF7EA002B294E /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ACFE6C252FC702390094FA79 /* Products */;
 			projectDirPath = "";
@@ -122,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACFE6C432FC704220094FA79 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +174,6 @@
 				INFOPLIST_FILE = Project_B/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -157,7 +181,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "om.Project-B";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.om.Project-B";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -176,7 +200,6 @@
 				INFOPLIST_FILE = Project_B/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -184,7 +207,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "om.Project-B";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.om.Project-B";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -251,6 +274,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -307,6 +331,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -333,6 +358,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AC73325D2FCAF7EA002B294E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.12.0;
+			};
+		};
+		ACFE6C5D2FC708C20094FA79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AC73325E2FCAF7EA002B294E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC73325D2FCAF7EA002B294E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		ACFE6C5E2FC708C20094FA79 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACFE6C5D2FC708C20094FA79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		ACFE6C602FC708C20094FA79 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACFE6C5D2FC708C20094FA79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		ACFE6C622FC708C20094FA79 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACFE6C5D2FC708C20094FA79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ACFE6C1C2FC702390094FA79 /* Project object */;
 }
