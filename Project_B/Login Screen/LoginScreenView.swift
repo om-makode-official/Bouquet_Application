@@ -71,7 +71,7 @@ struct LoginScreenView: View {
                 }
             }
         }
-    }
+    
     
     private var phoneInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
