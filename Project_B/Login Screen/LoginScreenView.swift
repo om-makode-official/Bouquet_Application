@@ -2,7 +2,7 @@
 //  LoginScreenView.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import SwiftUI
@@ -16,26 +16,7 @@ struct LoginScreenView: View {
     @StateObject var presenter: LoginScreenPresenter
     
     var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [Color(.systemBackground), Color(.systemGroupedBackground)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            VStack {
-                Circle()
-                    .fill(Color.blue.opacity(0.15))
-                    .frame(width: 300, height: 300)
-                    .blur(radius: 60)
-                    .offset(x: -80, y: -100)
-                Spacer()
-                Circle()
-                    .fill(Color.purple.opacity(0.12))
-                    .frame(width: 300, height: 300)
-                    .blur(radius: 60)
-                    .offset(x: 80, y: 100)
-            }
+        CommonBackgroundView()
             
             ScrollView {
                 VStack(spacing: 32) {

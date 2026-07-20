@@ -2,12 +2,50 @@
 //  HomeScreenEntity.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
 import MapKit
 import FirebaseCore
+import SwiftUI
+
+enum ContentTabsEnum{
+    case halls
+    case bouquet
+    case items
+    case other
+    
+    var id: Self{
+        return self
+    }
+    
+    var title: String{
+        switch self{
+        case .halls:
+            return "Resorts"
+        case .bouquet:
+            return "Bouquets"
+        case .items:
+            return "3rd"
+        case .other:
+            return "Others..."
+        }
+    }
+    var image: String{
+        switch self{
+            
+        case .halls:
+            return "resort"
+        case .bouquet:
+            return "bouquet"
+        case .items:
+            return "placeholder"
+        case .other:
+            return "placeholder"
+        }
+    }
+}
 
 enum HomeScreenAlertEnum: Identifiable {
     case message(title: String, message: String)
@@ -30,6 +68,13 @@ enum HomeScreenLoadingState{
     case error
 }
 
+enum BouquetLoadingState{
+    case idle
+    case loading
+    case loaded([BouquetDetailsEntity])
+    case error
+}
+
 enum AppLanguage: String, CaseIterable, Identifiable {
     case en
     case mr
@@ -44,29 +89,10 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         case .hi: return "Hindi"
         }
     }
-//    case english = "English"
-//    case hindi = "हिन्दी (Hindi)"
-//    case marathi = "मराठी (Marathi)"
-//    var flag: String {
-//        switch self {
-//        case .en: return "🇬🇧"
-//        case .mr: return "🇮🇳"
-//        case .hi: return "🇮🇳"
-//        }
-//    }
-}
-
-// Reusable localized container matching your exact JSON layout requirement
-
-
-struct ImageList: Identifiable {
-    let id = UUID()
-    let image: String
-    
 }
 
 struct HallResponseModel: Codable, Identifiable {
-
+    
     let id: Int?
     let hallName: LocalizedStringModel?
     let locationAddress: LocalizedStringModel?
@@ -94,76 +120,52 @@ struct HallResponseModel: Codable, Identifiable {
     }
     
     static func getDummyData() -> [HallResponseModel] {
-
         return (0..<6).map { index in
-
             HallResponseModel(
                 id: index,
-
                 hallName: LocalizedStringModel(
                     en: "                           ",
                     mr: "                           ",
                     hi: "                           "
                 ),
-
                 locationAddress: LocalizedStringModel(
                     en: "                           ",
                     mr: "                           ",
                     hi: "                           "
                 ),
-
                 description: LocalizedStringModel(
                     en: "                           ",
                     mr: "                           ",
                     hi: "                           "
                 ),
-
                 ownerContact: "       ",
-
                 latitude: 0,
                 longitude: 0,
-
                 seatingAvailability: 00,
-
                 hallSize: "  ",
-
                 roomCount: 0,
-
                 parkingCars: 0,
-
                 parkingBikes: 0,
-
                 pricePerDay: 0,
-
                 lightBillPerUnit: 0,
-
                 isACAvailable: false,
-
                 isPowerBackupAvailable: true,
-
                 allowsExternalCatering: true,
-
                 hasSoundSystem: true,
-
                 cancellationPolicy: "       ",
-
                 mainScreenImagePath: "",
-
                 galleryImagePaths: ["","",""]
             )
-
         }
-
     }
-    
 }
 
-struct LocalizedStringModel: Codable {
+struct LocalizedStringModel: Codable, Hashable {
     var en: String?
     var mr: String?
     var hi: String?
     
-    func getHallDetails() -> String{
+    func getDetails() -> String{
         switch LanguageManager.shared.selectedLanguage{
             
         case "en":
@@ -178,5 +180,37 @@ struct LocalizedStringModel: Codable {
         default:
             return en ?? ""
         }
+    }
+}
+
+enum PriceRange: String, CaseIterable, Identifiable {
+    case all = "All Prices"
+    case under50 = "Under Rs. 50"
+    case fiftyTo100 = "Rs. 50 - Rs. 100"
+    case over100 = "Over Rs. 100"
+    
+    var id: String { self.rawValue }
+}
+
+
+struct BouquetDetailsEntity: Identifiable, Codable {
+    var id: Int?
+    var name: LocalizedStringModel?
+    var flowersUsed: [LocalizedStringModel]?
+    var sellerName: LocalizedStringModel?
+    var sellerAddress: LocalizedStringModel?
+    var latitude: Double?
+    var longitude: Double?
+    var price: Double?
+    var availability: String?
+    var sizeWidth: Double?
+    var sizeHeight: Double?
+    var mainScreenImage: String?
+    var galleryImages: [String]?
+    var description: LocalizedStringModel?
+    var contactNumber: String?
+    
+    func getCoordinate() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude ?? 0, longitude: longitude ?? 0)
     }
 }

@@ -2,7 +2,7 @@
 //  DetailsScreenView.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
@@ -33,7 +33,7 @@ struct DetailsScreenView: View {
                             let isScrollingDown = minY > 0
                             
                             AsyncImage(
-                                url: URL(string: presenter.entity.mainScreenImagePath ?? "")
+                                url: URL(string: "\(StringConstants.shared.base)/\(presenter.entity.mainScreenImagePath ?? "")")
                             ) { image in
                                 image
                                     .resizable()
@@ -123,16 +123,17 @@ struct DetailsScreenView: View {
             .navigationBarHidden(true)
             .sheet(isPresented: $presenter.openSheet) {
                 GalleryView(openSheet: $presenter.openSheet,
-                            images: presenter.getImageGallery())
+                            images: presenter.galleryImages)
             }
             .fullScreenCover(
                 isPresented: Binding(
-                    get: { presenter.selectedImage != nil },
-                    set: { value in if !value { presenter.selectedImage = nil } }
+                    get: { presenter.selectedIndex != nil },
+                    set: { value in if !value { presenter.selectedIndex = nil } }
                 )
             ) {
-                if let image = presenter.selectedImage {
-                    FullScreenImageViewer(image: image)
+                if let index = presenter.selectedIndex {
+//                    FullScreenImageViewer(image: image)
+                    ZoomableImageView(images: presenter.galleryImages, initialIndex: index)
                 }
             }
         }
@@ -148,11 +149,12 @@ struct DetailsScreenView: View {
             HStack{
                 HStack(spacing: 5){
                     ForEach(1...5, id: \.self) { star in
-                        Image(systemName: star <= presenter.feedbackResponse?.getAverageRating() ?? 1 ? "star.fill" : "star")
+                        Image(systemName: star <= presenter.feedbackResponse?.getRatingCount() ?? 1 ? "star.fill" : "star")
                             .font(.subheadline)
                             .foregroundColor(.yellow)
                     }
-                    Text(presenter.feedbackResponse?.getTotalRatings() ?? "")
+//                    Text(presenter.feedbackResponse?.getTotalRatings() ?? "")
+                    Text(presenter.feedbackResponse?.getAverageRating() ?? "")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.white)
                 }
@@ -176,13 +178,13 @@ struct DetailsScreenView: View {
     private var titleView: some View{
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(presenter.entity.hallName?.getHallDetails() ?? "")
+                Text(presenter.entity.hallName?.getDetails() ?? "")
                     .font(.title)
                     .fontWeight(.bold)
                 
                 HStack {
                     Image(systemName: "mappin.and.ellipse")
-                    Text(presenter.entity.locationAddress?.getHallDetails() ?? "")
+                    Text(presenter.entity.locationAddress?.getDetails() ?? "")
                 }
                 .font(.callout)
                 .foregroundColor(.secondary)
@@ -278,7 +280,7 @@ struct DetailsScreenView: View {
                 .font(.title3)
                 .fontWeight(.bold)
             
-            Text(presenter.entity.description?.getHallDetails() ?? "")
+            Text(presenter.entity.description?.getDetails() ?? "")
                 .foregroundColor(.secondary)
                 .lineSpacing(4)
         }
@@ -325,36 +327,62 @@ struct DetailsScreenView: View {
                     .font(.title3)
                     .fontWeight(.bold)
                 Spacer()
-                Button(LocalizationManager.shared.localized("See All")) {
-                    presenter.openSheet = true
+                if !presenter.galleryImages.isEmpty{
+                    Button(LocalizationManager.shared.localized("See All")) {
+                        presenter.openSheet = true
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
                 }
-                .font(.subheadline)
-                .fontWeight(.semibold)
+            }
+            if !presenter.galleryImages.isEmpty{
+                if !presenter.firstFiveImages.isEmpty{
+                    galleryScrollView(images: presenter.firstFiveImages, showMoreView: true)
+                }else{
+                    galleryScrollView(images: presenter.galleryImages, showMoreView: false)
+                }
+            
+            }else{
+                HStack{
+                    Spacer()
+                    Text("No Images Available")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(presenter.getImageGallery(), id: \.self) { img in
-                        AsyncImage(url: URL(string: img)) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 140, height: 140)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .onTapGesture {
-                            presenter.selectedImage = img
-                        }
+        }
+        .padding(.top, 15)
+    }
+    
+    private func galleryScrollView(images: [String], showMoreView: Bool) -> some View{
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(images.indices, id: \.self) { index in
+                    AsyncImage(url: URL(string: "\(StringConstants.shared.base)/\(images[index])")) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            
                     }
-                    
+                    .frame(width: 140, height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .onTapGesture {
+                        presenter.selectedIndex = index
+                    }
+                }
+                
+                if showMoreView{
                     Button(action: {
                         presenter.openSheet = true
                     }, label: {
                         ZStack{
                             Rectangle()
-                                .fill(Color.black.opacity(0.6))
+                                .fill(Color.gray.opacity(0.6))
                                 .frame(width: 50, height: 140)
                                 .cornerRadius(5)
                             
@@ -366,7 +394,6 @@ struct DetailsScreenView: View {
                 }
             }
         }
-        .padding(.top, 15)
     }
     private var refreshButtonView: some View{
         Button {
@@ -403,13 +430,13 @@ struct DetailsScreenView: View {
                 center: presenter.entity.getCoordinate(),
                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             )))) {
-                Marker(presenter.entity.hallName?.getHallDetails() ?? "", coordinate: presenter.entity.getCoordinate())
+                Marker(presenter.entity.hallName?.getDetails() ?? "", coordinate: presenter.entity.getCoordinate())
                     .tint(.blue)
             }
             .frame(height: 200)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             
-            Text(presenter.entity.locationAddress?.getHallDetails() ?? "")
+            Text(presenter.entity.locationAddress?.getDetails() ?? "")
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 4)
@@ -440,7 +467,7 @@ struct DetailsScreenView: View {
             )
         )
         
-        destination.name = presenter.entity.hallName?.getHallDetails()
+        destination.name = presenter.entity.hallName?.getDetails()
         
         MKMapItem.openMaps(
             with: [destination],
@@ -531,30 +558,59 @@ struct DetailsScreenView: View {
                         .font(.title2)
                         .foregroundColor(.yellow)
                         .onTapGesture {
+                            presenter.showPostFeedbackButton = true
                             presenter.rating = star
+                            presenter.showFeedbackArea = true
                         }
                 }
                 
                 Spacer()
                 
-                if presenter.rating != 0/* || !presenter.feedback.isEmpty */{
+                if presenter.showPostFeedbackButton{
                     Button(action: {
                         presenter.postFeedback()
+                        presenter.showFeedbackArea = false
+                        presenter.showPostFeedbackButton = false
                     }, label: {
                         Image(systemName: "paperplane.circle.fill")
-                        //                                .foregroundStyle(StaticColor.shared.color())
+                        //.foregroundStyle(StaticColor.shared.color())
                             .foregroundColor(.green)
                             .font(.system(size: 30, weight: .semibold))
                     })
                 }
             }
             
-            TextField("Additional feedback (optional)",text: $presenter.feedback, axis: .vertical)
-                .lineLimit(3...5)
-                .padding(10)
-                .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+            if presenter.showFeedbackArea{
+                    TextField("Additional feedback (optional)",text: $presenter.feedback, axis: .vertical)
+                        .lineLimit(3...5)
+                        .padding(10)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
             
+            if let feedback = presenter.feedbackResponse?.getCurrentUserFeedback(userId: presenter.userId ?? ""){
+                HStack{
+                    (
+                        Text("Your Feedback: ")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 12, weight: .medium))
+                        +
+                        Text(feedback.feedback)
+                            .foregroundColor(.black.opacity(0.8))
+                            .font(.system(size: 12, weight: .medium))
+                    )
+                    
+                    Button(action: {
+                        presenter.showFeedbackArea = true
+                        presenter.showPostFeedbackButton = true
+                    }, label: {
+                        Image(systemName: "square.and.pencil")
+                            .font(.system(size: 20,weight: .medium))
+                            .foregroundColor(.green)
+                    })
+                        
+                }
+            }
         }
     }
     
@@ -564,47 +620,44 @@ struct DetailsScreenView: View {
             Text("Reviews")
                 .font(.title3)
                 .fontWeight(.bold)
-
-            if let feedbacks = presenter.feedbackResponse?.feedbacks, !feedbacks.isEmpty {
-
-                        
-                LazyVStack(spacing: 12) {
-
-                    ForEach(feedbacks, id: \.userId) { feedback in
-                        
-                        if let feedback = presenter.feedbackResponse?.getCurrentUserFeedback(userId: presenter.userId ?? ""), !feedback.feedback.isEmpty{
-                            
-                            if feedback.userId == presenter.userId{
-                                feedbackCellView(feedback: feedback.feedback, userName: "You")
-                            }
-                            else{
-                                feedbackCellView(feedback: feedback.feedback, userName: feedback.userName)
-                            }
+            
+            if let feedbackResponse = presenter.feedbackResponse, !feedbackResponse.feedbacks.isEmpty{
+                if feedbackResponse.feedbacks.count >= 5{
+                    let firstFiveFeedbacks = feedbackResponse.getFirstFiveFeedbacks()
+                    
+                    LazyVStack(spacing: 12) {
+                        ForEach(firstFiveFeedbacks, id: \.userId) { feedback in
+                                if feedback.userId == presenter.userId{
+                                    feedbackCellView(feedback: feedback.feedback, userName: "You")
+                                }
+                                else{
+                                    feedbackCellView(feedback: feedback.feedback, userName: feedback.userName)
+                                }
                         }
-                        
-//                        
-//                        feedbackCellView(feedback: feedback.feedback, userName: feedback.userName)
-
-                        
+                    }
+                }else{
+                    LazyVStack(spacing: 12) {
+                        ForEach(feedbackResponse.feedbacks, id: \.userId) { feedback in
+                                if feedback.userId == presenter.userId{
+                                    feedbackCellView(feedback: feedback.feedback, userName: "You")
+                                }
+                                else{
+                                    feedbackCellView(feedback: feedback.feedback, userName: feedback.userName)
+                                }
+//                            }
+                        }
                     }
                 }
-
-                    } else {
-                        HStack{
-                            Spacer()
-                            Text("No Reviews Yet")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
-
-//                        ContentUnavailableView(
-//                            "No Reviews Yet",
-//                            systemImage: "star.bubble",
-//                            description: Text("Be the first to leave feedback.")
-//                        )
-                    }
+            } else {
+                HStack{
+                    Spacer()
+                    Text("No Reviews Yet")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
+            }
+        }
     }
     
     func feedbackCellView(feedback: String, userName: String) -> some View{

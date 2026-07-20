@@ -2,7 +2,7 @@
 //  LoginHelper.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
@@ -38,7 +38,7 @@ class AuthManager: ObservableObject{
 class PhoneAuthService {
     
 //    private let baseURLString = StringConstants.shared.baseUrl
-    private let baseURLString = "http://localhost:8081/api/users"
+    private let baseURLString = StringConstants.shared.usersBaseUrl
     
     func sendOTP(phoneNumber: String) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in

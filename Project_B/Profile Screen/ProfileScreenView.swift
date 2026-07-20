@@ -2,7 +2,7 @@
 //  ProfileScreenView.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 6/3/26.
+//  Created by Om on 6/3/26.
 //
 
 import SwiftUI
@@ -13,26 +13,7 @@ struct ProfileScreenView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading){
-            LinearGradient(
-                colors: [Color(.systemBackground), Color(.systemGroupedBackground)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            
-                VStack {
-                    Circle()
-                        .fill(Color.blue.opacity(0.15))
-                        .frame(width: 300, height: 300)
-                        .blur(radius: 60)
-                        .offset(x: -80, y: -100)
-                    Spacer()
-                    Circle()
-                        .fill(Color.purple.opacity(0.12))
-                        .frame(width: 300, height: 300)
-                        .blur(radius: 60)
-                        .offset(x: 80, y: 100)
-                }
+            CommonBackgroundView()
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -84,7 +65,7 @@ struct ProfileScreenView: View {
                     primaryButton:
                             .destructive(Text(LocalizationManager.shared.localized("Yes"))){ action() },
                     secondaryButton:
-                            .cancel()
+                            .cancel(Text("No")){presenter.router.navigateBack()}
                 )
             }
         }
@@ -93,7 +74,7 @@ struct ProfileScreenView: View {
     private var profileHeaderSection: some View {
         VStack(spacing: 16) {
             ZStack(alignment: .bottomTrailing) {
-                if presenter.profileImage == nil, let url = URL(string: presenter.originalProfileImagePath ?? ""){
+                if presenter.profileImage == nil, let url = URL(string: "\(StringConstants.shared.base)/\(presenter.originalProfileImagePath ?? "")"){
                     AsyncImage(url: url, content: { image in
                         image
                             .resizable()
@@ -188,6 +169,7 @@ struct ProfileScreenView: View {
     private var saveButton: some View {
         Button(action: {
             presenter.updateUser()
+            presenter.showSaveButton = false
         }) {
             HStack {
                 Image(systemName: "square.and.arrow.down")

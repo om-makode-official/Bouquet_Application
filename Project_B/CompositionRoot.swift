@@ -2,7 +2,7 @@
 //  CompositionRoot.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
@@ -28,7 +28,9 @@ class CompositionRoot{
     func openHomeScreen(){
         let vc = HomeScreenBuilder().createModule(openDetailsScreen: openDetailsScreen,
                                                   openAddNewEntityScreen: openAddNewEntityScreen,
-                                                  openProfileScreen: openProfileScreen)
+                                                  openProfileScreen: openProfileScreen,
+                                                  openAddNewBouquetScreen: openAddNewBouquetScreen,
+                                                  openBouquetDetailsScreen: openBouquetDetailsScreen)
         navigationVC.pushViewController(vc, animated: true)
     }
     
@@ -41,10 +43,27 @@ class CompositionRoot{
         navigationVC.pushViewController(vc, animated: true)
     }
     
-    func openAddNewEntityScreen(entity: HallResponseModel?, refreshDelegate: RefreshDataProtocol){
-        let vc = AddNewEntityBuilder().createModule(navigateToPreviousScreen: navigateToPreviousScreen, entity: entity, refreshDelegate: refreshDelegate)
+    func openAddNewEntityScreen(resortEntity: HallResponseModel?, refreshDelegate: RefreshDataProtocol, identifier: String){
+ 
+//===================================================================
+        
+        if identifier == "resort"{
+            
+        }else if identifier == "bouquet"{
+            
+        }
+//===================================================================
+        
+        let vc = AddNewEntityBuilder().createModule(navigateToPreviousScreen: navigateToPreviousScreen, resortEntity: resortEntity, refreshDelegate: refreshDelegate, identifier: identifier, bouquetEntity: nil)
         navigationVC.pushViewController(vc, animated: true)
     }
+    func openAddNewBouquetScreen(bouquetEntity: BouquetDetailsEntity?, refreshDelegate: RefreshDataProtocol, identifier: String){
+        let vc = AddNewEntityBuilder().createModule(navigateToPreviousScreen: navigateToPreviousScreen, resortEntity: nil, refreshDelegate: refreshDelegate, identifier: identifier, bouquetEntity: bouquetEntity)
+        navigationVC.pushViewController(vc, animated: true)
+    }
+//    func openBouquetDetailsScreen(bouquetEntity: BouquetDetailsEntity){
+//        let vc =
+//    }
     
     func openProfileScreen(refreshDelegate: RefreshDataProtocol){
         let vc = ProfileScreenBuilder().createModule(refreshDelegate: refreshDelegate, navigateLoginScreen: { [weak self] in
@@ -65,9 +84,18 @@ class CompositionRoot{
         let vc = AddNewBookingBuilder().createModule(hallId: hallId, navigateToPreviousScreen: navigateToPreviousScreen, refreshDelegate: refreshDelegate, bookingId: bookingId, startDate: startDate, endDate: endDate)
         navigationVC.pushViewController(vc, animated: true)
     }
-    
     func openFAQScreen(){
         let vc = UIHostingController(rootView: FAQHelpScreenView())
+        navigationVC.pushViewController(vc, animated: true)
+    }
+    
+    func openBouquetDetailsScreen(bouquetEntity: BouquetDetailsEntity){
+        let vc = BouquetDetailsBuilder().createModule(bouquetEntity: bouquetEntity,
+                                                      navigateToPreviousScreen: {[weak self] in
+            self?.navigationVC.setNavigationBarHidden(false, animated: true)
+            self?.navigationVC.popViewController(animated: true)
+            
+        })
         navigationVC.pushViewController(vc, animated: true)
     }
     

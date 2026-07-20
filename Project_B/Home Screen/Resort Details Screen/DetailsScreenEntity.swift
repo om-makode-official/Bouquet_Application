@@ -2,7 +2,7 @@
 //  DetailsScreenEntity.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 6/5/26.
+//  Created by Om on 6/5/26.
 //
 
 import Foundation
@@ -29,7 +29,7 @@ struct Booking: Codable, Identifiable {
 struct HallViewResponse: Codable {
     let totalViews: Int
     let uniqueUsers: Int
-    let viewTimestamps: [String]
+//    let viewTimestamps: [String]
     
     func getViewsCount() -> String{
         return totalViews == 1 ? "\(totalViews) view" : "\(totalViews) views"
@@ -50,8 +50,12 @@ struct HallRatingResponse: Codable {
         return totalRatings == 1 ? "\(totalRatings) rating" : "\(totalRatings) ratings"
     }
     
-    func getAverageRating() -> Int{
+    func getRatingCount() -> Int{
         return Int(averageRating)
+    }
+    
+    func getAverageRating() -> String{
+        return String(averageRating)
     }
     
     func getCurrentUserFeedback(userId: String) -> FeedbackResponse?{
@@ -61,6 +65,13 @@ struct HallRatingResponse: Codable {
     func getFeedbacksWithoutCurrentUser(userId: String) -> [FeedbackResponse]{
         let feedback = feedbacks.filter { $0.userId != userId }
         return feedback
+    }
+    func getFirstFiveFeedbacks() -> [FeedbackResponse]{
+        var firstFiveFeedbacks = [FeedbackResponse]()
+        for index in 1...5{
+            firstFiveFeedbacks.append(feedbacks[index])
+        }
+        return firstFiveFeedbacks
     }
 }
 

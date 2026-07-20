@@ -2,25 +2,35 @@
 //  HomeScreenPresenter.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/28/26.
+//  Created by Om on 5/28/26.
 //
 
 import Foundation
 import MapKit
 import FirebaseAuth
+import SwiftUI
 
 protocol RefreshDataProtocol{
     func fetchAllEntities()
+    func fetchAllBouquets()
 }
 
 class HomeScreenPresenter: ObservableObject, RefreshDataProtocol{
     
     @Published var loadingState: HomeScreenLoadingState = .idle
+    @Published var bouquetLoadingState: BouquetLoadingState = .idle
     @Published var alertType: HomeScreenAlertEnum?
+    @Published var bouquetAlertType: HomeScreenAlertEnum?
     @Published var isLikedHallsListView: Bool = false
-//    @Published var isAdmin: Bool = false
     @Published var hallsData: [HallResponseModel] = []
     @Published var filteredHallList: [HallResponseModel] = []
+    @Published var contentTabs: [ContentTabsEnum] = [.halls, .bouquet, .items, .other]
+    @Published var selectedTab: ContentTabsEnum = .halls
+    
+    @Published var bouquets: [BouquetDetailsEntity] = []
+    
+    @Published var isLikedBouquetListView: Bool = false
+    
     
     let router: HomeScreenRouterProtocol
     let interactor: HomeScreenInteractor
@@ -31,7 +41,10 @@ class HomeScreenPresenter: ObservableObject, RefreshDataProtocol{
         
         fetchAllEntities()
         checkRoleStatus()
+        
+        fetchAllBouquets()
     }
+    
 
     
     func fetchAllEntities(){
@@ -52,7 +65,7 @@ class HomeScreenPresenter: ObservableObject, RefreshDataProtocol{
         }
     }
     func deleteEntityById(id: Int){
-        self.alertType = .action(title: "Delete", message: "Are you sure to delete this hall?", action: {
+        self.alertType = .action(title: "Delete", message: "Are you sure to delete this Resort?", action: {
             self.deleteEntity(id: id)
         })
     }
@@ -95,7 +108,6 @@ class HomeScreenPresenter: ObservableObject, RefreshDataProtocol{
                         let filtered = hallsData.filter {
                             likedIds.contains($0.id ?? 0)
                         }
-//                        self.filteredHallList = filtered
                         self.loadingState = .loaded(filtered)
                     }
                 }
@@ -111,10 +123,85 @@ class HomeScreenPresenter: ObservableObject, RefreshDataProtocol{
     func navigateToDetailsScreen(entity: HallResponseModel){
         router.navigateToDetailsScreen(entity: entity)
     }
-    func navigateToAddEntityScreen(entity: HallResponseModel?){
-        router.navigateToAddNewEntityScreen(entity: entity, refreshDelegate: self)
+    func navigateToAddResortScreen(entity: HallResponseModel?){
+        router.navigateToAddNewEntityScreen(resortEntity: entity, refreshDelegate: self, identifier: "resort")
     }
     func navigateToProfileScreen(){
         self.router.navigateToProfileScreen(refreshDelegate: self)
+    }
+}
+
+extension HomeScreenPresenter{
+    func fetchAllBouquets() {
+        self.bouquetLoadingState = .loading
+        Task{
+            do{
+                let response = try await interactor.fetchAllBouquets()
+                await MainActor.run{
+                    self.bouquetLoadingState = .loaded(response)
+                    self.bouquets = response
+                }
+                print("bouquet response",response)
+            }catch let error{
+                print(error.localizedDescription)
+                await MainActor.run{
+                    self.bouquetLoadingState = .error
+                }
+            }
+        }
+    }
+    func deleteBouquetById(id: Int){
+        self.bouquetAlertType = .action(title: "Delete", message: "Are you sure to delete this Bouquet?", action: {
+            self.deleteBouquet(id: id)
+        })
+    }
+    
+    func deleteBouquet(id: Int){
+        Task{
+            do{
+                let response = try await interactor.deleteBouquet(id: id)
+                
+                await MainActor.run{
+                    if response == true{
+                        self.bouquetAlertType = .message(title: "", message: "Deleted Successfully")
+                        self.fetchAllBouquets()
+                    }
+                }
+            }catch let error{
+                print(error.localizedDescription)
+            }
+        }
+    }
+    func getLikedBouquetList(){
+        bouquetLoadingState = .loading
+        Task{
+            do{
+                let likedIds = try await interactor.fetchLikedBouquetIds(userId: Auth.auth().currentUser?.uid ?? "")
+                await MainActor.run{
+                    if !bouquets.isEmpty{
+                        let filtered = bouquets.filter {
+                            likedIds.contains($0.id ?? 0)
+                        }
+                        bouquetLoadingState = .loaded(filtered)
+                    }
+                }
+            }catch let error{
+                await MainActor.run{
+                    bouquetLoadingState = .error
+                    print(error)
+                }
+            }
+        }
+    }
+    func getAllBouquetList(){
+        bouquetLoadingState = .loaded(bouquets)
+    }
+    
+    func navigateToAddBouquetScreen(bouquetEntity: BouquetDetailsEntity?){
+        router.navigateToAddNewBouquetScreen(bouquetEntity: bouquetEntity, refreshDelegate: self, identifier: "bouquet")
+    }
+    
+    func navigateToBouquetDetailsScreen(bouquetEntity: BouquetDetailsEntity){
+        router.navigateToBouquetDetailsScreen(bouquetEntity: bouquetEntity)
     }
 }

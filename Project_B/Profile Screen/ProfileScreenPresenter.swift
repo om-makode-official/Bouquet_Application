@@ -2,7 +2,7 @@
 //  ProfileScreenPresenter.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 6/3/26.
+//  Created by Om on 6/3/26.
 //
 
 import Foundation
@@ -85,7 +85,6 @@ class ProfileScreenPresenter: ObservableObject {
                 print(error.localizedDescription)
             }
         }
-        
         refreshHomeScreen()
     }
     

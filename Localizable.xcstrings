@@ -14,6 +14,12 @@
         }
       }
     },
+    "%lld Arrangements Matching" : {
+
+    },
+    "%lld cm" : {
+
+    },
     "%lld People" : {
 
     },
@@ -35,6 +41,9 @@
     "0.00" : {
 
     },
+    "3rd" : {
+
+    },
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -52,7 +61,7 @@
         }
       }
     },
-    "Add New" : {
+    "Add Flowers" : {
 
     },
     "Additional feedback (optional)" : {
@@ -137,6 +146,9 @@
         }
       }
     },
+    "Availability" : {
+
+    },
     "Available" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -213,6 +225,12 @@
           }
         }
       }
+    },
+    "Bouquet Info" : {
+
+    },
+    "Bouquet Size" : {
+
     },
     "Call Now" : {
       "extractionState" : "manual",
@@ -345,9 +363,6 @@
     "Directions" : {
 
     },
-    "Discover" : {
-
-    },
     "DJ & Sound System Setup" : {
 
     },
@@ -355,9 +370,6 @@
 
     },
     "e.g. 5000" : {
-
-    },
-    "Edit Details" : {
 
     },
     "Electricity Cost (Per Unit)" : {
@@ -404,6 +416,9 @@
 
     },
     "Enter mobile number" : {
+
+    },
+    "Enter Shop Name (%@)" : {
 
     },
     "Enter the 6-digit code sent to \n%@" : {
@@ -497,6 +512,12 @@
         }
       }
     },
+    "Flower Name(%@)" : {
+
+    },
+    "Flowers Used" : {
+
+    },
     "Fri" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -573,9 +594,6 @@
     "Google" : {
 
     },
-    "Hall Name (%@)" : {
-
-    },
     "Hall Size" : {
       "localizations" : {
         "hi" : {
@@ -591,6 +609,9 @@
           }
         }
       }
+    },
+    "Height" : {
+
     },
     "hello" : {
       "extractionState" : "manual",
@@ -615,7 +636,13 @@
         }
       }
     },
+    "Hello, World!" : {
+
+    },
     "Help & FAQ" : {
+
+    },
+    "Image Gallery" : {
 
     },
     "January" : {
@@ -854,6 +881,21 @@
     "More Hall Images" : {
 
     },
+    "Name (%@)" : {
+
+    },
+    "No" : {
+
+    },
+    "No Flowers Mentioned" : {
+
+    },
+    "No Image Available" : {
+
+    },
+    "No Images Available" : {
+
+    },
     "No Results Found" : {
 
     },
@@ -911,6 +953,9 @@
       }
     },
     "or continue with" : {
+
+    },
+    "Others..." : {
 
     },
     "Owner Contact Number" : {
@@ -1006,6 +1051,9 @@
         }
       }
     },
+    "Price" : {
+
+    },
     "Price Per Day" : {
       "localizations" : {
         "hi" : {
@@ -1021,6 +1069,9 @@
           }
         }
       }
+    },
+    "Price: " : {
+
     },
     "Pricing & Utilities" : {
 
@@ -1095,6 +1146,7 @@
       }
     },
     "Save" : {
+      "extractionState" : "stale",
       "localizations" : {
         "hi" : {
           "stringUnit" : {
@@ -1110,7 +1162,7 @@
         }
       }
     },
-    "Saved Halls" : {
+    "Search by flower name (e.g. Roses, Orchids)..." : {
 
     },
     "Search topics or keywords..." : {
@@ -1165,6 +1217,12 @@
     "Selected Coordinates" : {
 
     },
+    "Seller Name:" : {
+
+    },
+    "Seller Shop Name" : {
+
+    },
     "Send OTP" : {
 
     },
@@ -1186,6 +1244,9 @@
       }
     },
     "Sign in to continue your journey" : {
+
+    },
+    "Size" : {
 
     },
     "Sound System" : {
@@ -1329,9 +1390,6 @@
         }
       }
     },
-    "Update" : {
-
-    },
     "Update Booking" : {
 
     },
@@ -1364,6 +1422,9 @@
     "Welcome Back" : {
 
     },
+    "Width" : {
+
+    },
     "Yes" : {
       "localizations" : {
         "hi" : {
@@ -1379,6 +1440,9 @@
           }
         }
       }
+    },
+    "Your Feedback: " : {
+
     },
     "कारें" : {
       "extractionState" : "manual"

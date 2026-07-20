@@ -2,7 +2,7 @@
 //  DetailsScreenPresenter.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
@@ -12,19 +12,24 @@ import MapKit
 
 class DetailsScreenPresenter: ObservableObject, RefreshBookingStatusDelegateProtocol{
     @Published var openSheet: Bool = false
-    @Published var selectedImage: String?
+    @Published var selectedIndex: Int?
     @Published var isLiked: Bool = false
     @Published var bookedDates: [(Int?, Double?, Double?)]?
     
 //    @Published var loadingState: DetailsScreenLoadingState = .idle
     @Published var rating: Int = 0
     @Published var feedback: String = ""
+    @Published var showFeedbackArea: Bool = false
+    @Published var showPostFeedbackButton: Bool = false
     
     @Published var viewCount: HallViewResponse?
     @Published var refetchBooking: Bool = false
     @Published var isCalendarLoadingCompleted: Bool = false
     @Published var feedbackResponse: HallRatingResponse?
     @Published var userId: String?
+    
+    @Published var galleryImages: [String] = []
+    @Published var firstFiveImages: [String] = []
 //    @Published var isAdmin: Bool = false
     
     let entity: HallResponseModel
@@ -48,6 +53,7 @@ class DetailsScreenPresenter: ObservableObject, RefreshBookingStatusDelegateProt
         getViewCount()
         
         getAllFeedbacks()
+        getImageGallery()
     }
     
     func fetchBookings(){
@@ -112,7 +118,7 @@ class DetailsScreenPresenter: ObservableObject, RefreshBookingStatusDelegateProt
                     self.viewCount = response
                     print("totalViews %%%%%%%%%%%",response.totalViews)
                     print("uniqueUsers %%%%%%%%%%%",response.uniqueUsers)
-                    print("lastViewedAt %%%%%%%%%%%",response.viewTimestamps)
+//                    print("lastViewedAt %%%%%%%%%%%",response.viewTimestamps)
                 }
             }catch let error{
                 print("getViewCount", error.localizedDescription)
@@ -126,14 +132,21 @@ class DetailsScreenPresenter: ObservableObject, RefreshBookingStatusDelegateProt
         }
     }
     
-    func getImageGallery() -> [String]{
-        guard let urls = entity.galleryImagePaths else{ return [] }
+    func getImageGallery(){
+        guard let urls = entity.galleryImagePaths else{ return }
         
         var urlArray = [String]()
         for url in urls{
             urlArray.append(url)
         }
-        return urlArray
+        self.galleryImages = urlArray
+        
+        if urlArray.count > 5{
+            for index in 1...5{
+                firstFiveImages.append(urlArray[index])
+            }
+        }
+        
     }
     
     func handleLikeButtonTapped(hallId: Int, currentLikeState: Bool) {

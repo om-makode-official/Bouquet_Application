@@ -2,13 +2,10 @@
 //  ProfileScreenInteractor.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 6/4/26.
+//  Created by Om on 6/4/26.
 //
 
 import Foundation
-
-
-
 
 protocol ProfileScreenInteractorProtocol: AnyObject {
     func fetchUser(uid: String) async throws -> UserDTO
@@ -18,7 +15,7 @@ protocol ProfileScreenInteractorProtocol: AnyObject {
 
 class ProfileScreenInteractor: ProfileScreenInteractorProtocol {
 
-    private let baseURLString = "http://localhost:8081/api/users"
+    private let baseURLString = StringConstants.shared.usersBaseUrl
 
     func fetchUser(uid: String) async throws -> UserDTO {
 

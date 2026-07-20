@@ -2,7 +2,7 @@
 //  AddNewEntityPresenter.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/28/26.
+//  Created by Om on 5/28/26.
 //
 
 import Foundation
@@ -14,9 +14,7 @@ import UIKit
 
 class AddNewEntityPresenter: ObservableObject {
     
-//    @Published var hallName: LocalizedStringModel?
-//    @Published var locationAddress: LocalizedStringModel?
-//    @Published var description: LocalizedStringModel?
+    @Published var selectedLanguage: AppLanguage = .en
     @Published var ownerContact = ""
     @Published var isShowingMainPicker = false
     @Published var isShowingGalleryPicker = false
@@ -47,39 +45,83 @@ class AddNewEntityPresenter: ObservableObject {
     
     @Published var isLoading: Bool = false
     
-    @Published var hallNameLanguages: LocalizedStringModel? = LocalizedStringModel()
+    @Published var nameLanguages: LocalizedStringModel? = LocalizedStringModel()
     @Published var addressLanguages: LocalizedStringModel? = LocalizedStringModel()
     @Published var descriptionLanguages: LocalizedStringModel? = LocalizedStringModel()
+    
+    @Published var flowerName: String = ""
+    @Published var flowers: [LocalizedStringModel] = []
+    @Published var bouquetShopName: LocalizedStringModel? = LocalizedStringModel()
+    @Published var bouquetPrice: String = ""
+    @Published var sizeWidth: String = ""
+    @Published var sizeHeight: String = ""
+    @Published var availabilityInfo: [String] = ["Same Day", "Next Day"]
+    @Published var selectedAvailability: String = "Same Day"
     
     //    private let service = HallService()
     
     let interactor : AddNewEntityInteractor
     let router: AddNewEntityRouter
-    let entity: HallResponseModel?
+    let resortEntity: HallResponseModel?
+    let identifier: String
+    let bouquetEntity: BouquetDetailsEntity?
     
     var refreshDelegate: RefreshDataProtocol?
     
-    init(interactor : AddNewEntityInteractor, router: AddNewEntityRouter, entity: HallResponseModel?) {
+    init(interactor : AddNewEntityInteractor, router: AddNewEntityRouter, resortEntity: HallResponseModel?, identifier: String, bouquetEntity: BouquetDetailsEntity?) {
         self.interactor = interactor
         self.router = router
-        self.entity = entity
+        self.resortEntity = resortEntity
+        self.identifier = identifier
+        self.bouquetEntity = bouquetEntity
         
         fillDataIfAvailable()
     }
+    func getTitle() -> String{
+        if identifier == "resort"{
+            return "Add New Resort"
+        }else if identifier == "resort", resortEntity != nil{
+            return "Edit Resort"
+        }else if identifier == "bouquet"{
+            return "Add New Bouquet"
+        }else if identifier == "bouquet", bouquetEntity != nil{
+            return "Edit Bouquet"
+        }
+        return "Add New Data"
+    }
     
-    func loadImages(){
+    func onTapSaveUpdateButton(){
+        if identifier == "resort" && getSaveUpdateText().lowercased() == "save"{
+            createNewResort()
+        }else if identifier == "resort" && getSaveUpdateText().lowercased() == "update"{
+            updateResort()
+        }else if identifier == "bouquet" && getSaveUpdateText().lowercased() == "save"{
+            createBouquet()
+        }else if identifier == "bouquet" && getSaveUpdateText().lowercased() == "update"{
+            updateBouquet()
+        }
+    }
+    func getSaveUpdateText() -> String{
+        if resortEntity != nil || bouquetEntity != nil{
+            return "Update"
+        }else{
+            return "Save"
+        }
+    }
+    
+    func loadImages(mainImageUrl: String, galleryImages: [String]?){
         Task {
             do{
-                if let mainImageUrl = entity?.mainScreenImagePath, let url = URL( string: mainImageUrl ){
+                if let url = URL( string: "\(StringConstants.shared.base)/\(mainImageUrl)" ){
                         let image = try? await interactor.loadImage(url: url)
                     await MainActor.run{
                         self.mainScreenImage = image
                     }
 
                 }
-                if let galleryImages = entity?.galleryImagePaths{
-                    for url in galleryImages{
-                        if let imageUrl = URL(string: url){
+                if let images = galleryImages{
+                    for url in images{
+                        if let imageUrl = URL(string: "\(StringConstants.shared.base)/\(url)"){
                             if let image = try await interactor.loadImage(url: imageUrl){
                                 await MainActor.run{
                                     self.hallImages.append(image)
@@ -93,53 +135,73 @@ class AddNewEntityPresenter: ObservableObject {
     }
     
     func fillDataIfAvailable(){
-        if let data = entity{
-            self.hallNameLanguages = data.hallName
-            self.addressLanguages = data.locationAddress
-            self.descriptionLanguages = data.description
-            self.ownerContact = data.ownerContact ?? ""
-            self.latitude = String(data.latitude ?? 0)
-            self.longitude = String(data.longitude ?? 0)
-            self.seatingAvailability = data.seatingAvailability ?? 0
-            self.hallSize = data.hallSize ?? ""
-            self.roomCount = String(data.roomCount ?? 0)
-            self.parkingCars = String(data.parkingCars ?? 0)
-            self.parkingBikes = String(data.parkingBikes ?? 0)
-            self.pricePerDay = String(data.pricePerDay ?? 0)
-            self.lightBillPerUnit = String(data.lightBillPerUnit ?? 0)
-            self.isACAvailable = data.isACAvailable ?? false
-            self.isPowerBackupAvailable = data.isPowerBackupAvailable ?? false
-            self.allowsExternalCatering = data.allowsExternalCatering ?? false
-            self.hasSoundSystem = data.hasSoundSystem ?? false
-            self.cancellationPolicy = data.cancellationPolicy ?? ""
-            
-            
-            
-            self.loadImages()
-            
-            
-            
+        if identifier == "resort"{
+            if let data = resortEntity{
+                self.nameLanguages = data.hallName
+                self.addressLanguages = data.locationAddress
+                self.descriptionLanguages = data.description
+                self.ownerContact = data.ownerContact ?? ""
+                self.latitude = String(data.latitude ?? 0)
+                self.longitude = String(data.longitude ?? 0)
+                self.seatingAvailability = data.seatingAvailability ?? 0
+                self.hallSize = data.hallSize ?? ""
+                self.roomCount = String(data.roomCount ?? 0)
+                self.parkingCars = String(data.parkingCars ?? 0)
+                self.parkingBikes = String(data.parkingBikes ?? 0)
+                self.pricePerDay = String(data.pricePerDay ?? 0)
+                self.lightBillPerUnit = String(data.lightBillPerUnit ?? 0)
+                self.isACAvailable = data.isACAvailable ?? false
+                self.isPowerBackupAvailable = data.isPowerBackupAvailable ?? false
+                self.allowsExternalCatering = data.allowsExternalCatering ?? false
+                self.hasSoundSystem = data.hasSoundSystem ?? false
+                self.cancellationPolicy = data.cancellationPolicy ?? ""
+                
+                if let mainImage = resortEntity?.mainScreenImagePath{
+                    self.loadImages(mainImageUrl: mainImage, galleryImages: resortEntity?.galleryImagePaths)
+                }
+                
+                
+            }
+        }else if identifier == "bouquet"{
+            if let data = bouquetEntity{
+                self.nameLanguages = data.name
+                self.addressLanguages = data.sellerAddress
+                self.descriptionLanguages = data.description
+                self.ownerContact = data.contactNumber ?? ""
+                self.latitude = String(data.latitude ?? 0)
+                self.longitude = String(data.longitude ?? 0)
+
+                self.bouquetShopName = data.sellerName
+                self.bouquetPrice = String(data.price ?? 0)
+                self.sizeWidth = String(data.sizeWidth ?? 0)
+                self.sizeHeight = String(data.sizeHeight ?? 0)
+                self.selectedAvailability = data.availability ?? ""
+                self.flowers = data.flowersUsed ?? []
+                if let mainImage = bouquetEntity?.mainScreenImage{
+                    self.loadImages(mainImageUrl: mainImage, galleryImages: bouquetEntity?.galleryImages)
+                }
+            }
         }
     }
     
-    func uploadImages(){
+    func createNewResort(){
         self.isLoading = true
         
         Task{
             do{
                 var imagesArray = [String]()
                 for image in hallImages{
-                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "gallery")
+                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "resort")
                     
                     imagesArray.append(imageString)
                 }
                 
                 var mainImageString = ""
                 if let image = mainScreenImage{
-                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "gallery")
+                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "resort")
                 }
                 
-                let response = try await interactor.saveEntity(hallName: hallNameLanguages,
+                let response = try await interactor.saveEntity(hallName: nameLanguages,
                                                                locationAddress: addressLanguages,
                                                                description: descriptionLanguages,
                                                                ownerContact: ownerContact,
@@ -173,28 +235,31 @@ class AddNewEntityPresenter: ObservableObject {
                 
             }catch let error{
                 print(error.localizedDescription)
+                await MainActor.run{
+                    self.isLoading = false
+                }
             }
         }
     }
-    func updateEntity(){
+    func updateResort(){
         self.isLoading = true
         
         Task{
             do{
                 var imagesArray = [String]()
                 for image in hallImages{
-                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "gallery")
+                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "resort")
                     
                     imagesArray.append(imageString)
                 }
                 
                 var mainImageString = ""
                 if let image = mainScreenImage{
-                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "gallery")
+                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "resort")
                 }
                 
-                let response = try await interactor.updateEntity(id: entity?.id ?? 0,
-                                                                 hallName: hallNameLanguages,
+                let response = try await interactor.updateEntity(id: resortEntity?.id ?? 0,
+                                                                 hallName: nameLanguages,
                                                                locationAddress: addressLanguages,
                                                                description: descriptionLanguages,
                                                                ownerContact: ownerContact,
@@ -225,12 +290,19 @@ class AddNewEntityPresenter: ObservableObject {
                 
             }catch let error{
                 print(error.localizedDescription)
+                await MainActor.run{
+                    self.isLoading = false
+                }
             }
         }
     }
     
     func navigateBack(){
-        refreshDelegate?.fetchAllEntities()
+        if identifier == "resort"{
+            refreshDelegate?.fetchAllEntities()
+        }else if identifier == "bouquet"{
+            refreshDelegate?.fetchAllBouquets()
+        }
         router.navigateBack()
     }
     
@@ -270,6 +342,129 @@ class AddNewEntityPresenter: ObservableObject {
     }
 }
 
+
+extension AddNewEntityPresenter{
+    func createBouquet(){
+        self.isLoading = true
+        Task{
+            do{
+                
+                var imagesArray = [String]()
+                for image in hallImages{
+                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "bouquet")
+                    
+                    imagesArray.append(imageString)
+                }
+                
+                var mainImageString = ""
+                if let image = mainScreenImage{
+                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "bouquet")
+                }
+                
+                
+                let data = BouquetDetailsEntity(
+                    name: nameLanguages,
+                    flowersUsed: flowers,
+                    sellerName: bouquetShopName,
+                    sellerAddress: addressLanguages,
+                    latitude: Double(latitude),
+                    longitude: Double(longitude),
+                    price: Double(bouquetPrice),
+                    availability: selectedAvailability,
+                    sizeWidth: Double(sizeWidth),
+                    sizeHeight: Double(sizeHeight),
+                    mainScreenImage: mainImageString,
+                    galleryImages: imagesArray,
+                    description: descriptionLanguages,
+                    contactNumber: ownerContact)
+                let response = try await interactor.createBouquet(bouquet: data)
+                
+                
+                await MainActor.run{
+                    print(response)
+                    self.isLoading = false
+                    self.navigateBack()
+                }
+            }catch let error{
+                print(error.localizedDescription)
+                self.isLoading = false
+            }
+        }
+    }
+    func updateBouquet(){
+        self.isLoading = true
+        
+        Task{
+            do{
+                var imagesArray = [String]()
+                for image in hallImages{
+                    let imageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "bouquet")
+                    
+                    imagesArray.append(imageString)
+                }
+                
+                var mainImageString = ""
+                if let image = mainScreenImage{
+                    mainImageString = try await ImageUpload.shared.uploadImage(image: image, targetFolder: "bouquet")
+                }
+                guard let data = bouquetEntity, let id = data.id else { return }
+                
+                let response = try await interactor.updateBouquet(bouquet:
+                                                                    BouquetDetailsEntity(id: id,
+                                                                                         name: self.nameLanguages,
+                                                                                         flowersUsed: self.flowers,
+                                                                                         sellerName: self.bouquetShopName,
+                                                                                         sellerAddress: self.addressLanguages,
+                                                                                         latitude: Double(self.latitude),
+                                                                                         longitude: Double(self.longitude),
+                                                                                         price: Double(self.bouquetPrice),
+                                                                                         availability: self.selectedAvailability,
+                                                                                         sizeWidth: Double(self.sizeWidth),
+                                                                                         sizeHeight: Double(self.sizeHeight),
+                                                                                         mainScreenImage: mainImageString,
+                                                                                         galleryImages: imagesArray,
+                                                                                         description: self.descriptionLanguages,
+                                                                                         contactNumber: self.ownerContact), id: id)
+                await MainActor.run{
+                    if response == true{
+                        self.isLoading = false
+                        self.navigateBack()
+                    }
+                }
+                
+                
+                
+            }catch let error{
+                print(error.localizedDescription)
+                self.isLoading = false
+                
+            }
+        }
+    }
+    
+    func addFlower(name: String) {
+        var flower = LocalizedStringModel()
+
+        switch selectedLanguage {
+        case .en:
+            flower.en = name
+
+        case .mr:
+            flower.mr = name
+
+        case .hi:
+            flower.hi = name
+        }
+
+        flowers.append(flower)
+        flowerName = ""
+    }
+
+    func removeFlower(at index: Int) {
+        guard flowers.indices.contains(index) else { return }
+        flowers.remove(at: index)
+    }
+}
 
 
 

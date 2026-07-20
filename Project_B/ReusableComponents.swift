@@ -2,7 +2,7 @@
 //  ReusableComponents.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/27/26.
+//  Created by Om on 5/27/26.
 //
 
 import Foundation
@@ -15,7 +15,16 @@ struct StringConstants{
     
     static let shared = StringConstants()
     
+    let base = "http://localhost:8081"
+//    let base = "http://192.168.31.176:8081" //NEXT_JIO
+    
     let baseUrl = "http://localhost:8081/api/halls"
+//    let baseUrl = "http://192.168.31.176:8081/api/halls" //NEXT_JIO
+    
+    let usersBaseUrl = "http://localhost:8081/api/users"
+//    let usersBaseUrl = "http://192.168.31.176:8081/api/users"  //NEXT_JIO
+    
+    let bouquetBaseUrl = "http://localhost:8081/api/bouquets"
 }
 
 
@@ -46,7 +55,7 @@ struct ImageUpload{
                     multipart.append(
                         imageData,
                         withName: "file", // Matches @RequestParam("file") in Java
-                        fileName: targetFolder == "profiles" ? "avatar.jpg" : "hall_asset.jpg",
+                        fileName: getFileName(target: targetFolder),
                         mimeType: "image/jpeg"
                     )
                 },
@@ -69,6 +78,16 @@ struct ImageUpload{
         print("Response Path Result:", res)
         return res
     }
+    func getFileName(target: String) -> String{
+        if target == "profiles"{
+            return "avatar.jpg"
+        }else if target == "resort"{
+            return "resort_asset.jpg"
+        }else if target == "bouquet"{
+            return "bouquet_asset.jpg"
+        }
+        return "image.jpg"
+    }
 }
 
 
@@ -76,7 +95,7 @@ struct GalleryView: View {
     @Binding var openSheet: Bool
     let images: [String]
     
-    @State private var selectedImage: String?
+    @State private var selectedIndex: Int?
     
     let columns = [
         GridItem(.flexible(), spacing: 2),
@@ -84,146 +103,235 @@ struct GalleryView: View {
     ]
     
     var body: some View {
-        ZStack(alignment: .topTrailing){
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(images, id: \.self) { item in
-                        
-                            
-                        AsyncImage(
-                            url: URL(string: item)
-                        ) { image in
-
-                            image
-                                .resizable()
-                                .scaledToFit()
-
-                        } placeholder: {
-
-                            Image("placeholder")
-                                .resizable()
-                                .scaledToFit()
-
-                        }
-                        .clipped()
-                        .onTapGesture {
-                            selectedImage = item
-                        }
-                    }
-                }
-            }
-            .navigationTitle("All Photos")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        openSheet = false
-                    }
-                    .fontWeight(.bold)
-                }
-            }
-            .fullScreenCover(
-                isPresented: Binding(
-                    get: {
-                        selectedImage != nil
-                    },
-                    set: { value in
-                        if !value {
-                            selectedImage = nil
-                        }
-                    }
-                )
-            ) {
-
-                if let image = selectedImage {
-
-                    FullScreenImageViewer(
-                        image: image
-                    )
-
-                }
-
-            }
-            
-            Button(action: {
-                self.openSheet = false
-            }, label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(12)
-                    .background(.ultraThinMaterial)
-                    .environment(\.colorScheme, .dark)
-                    .clipShape(Circle())
-            })
-            .padding()
-        }
-    }
-}
-
-// MARK: - Full Screen Image Viewer
-struct FullScreenImageViewer: View {
-    let image: String
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Color.black.ignoresSafeArea()
+        ZStack{
+            Color(.systemGroupedBackground)
+                .ignoresSafeArea()
             
             VStack{
-                Spacer()
-                ZoomableImageView(imageName: image)
-                Spacer()
+                HStack{
+                    Text("Image Gallery")
+                        .font(.title)
+                        .foregroundColor(.black)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.openSheet = false
+                    }, label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(.ultraThinMaterial)
+                            .environment(\.colorScheme, .dark)
+                            .clipShape(Circle())
+                    })
+                    .padding(.top)
+                }.padding(.horizontal)
+                Rectangle()
+                    .fill(Color.gray.opacity(0.5))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 1)
+                
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 2) {
+                        ForEach(images.indices, id: \.self) { index in
+                            
+                                
+                            AsyncImage(
+                                url: URL(string: "\(StringConstants.shared.base)/\(images[index])")
+                            ) { image in
+
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+
+                            } placeholder: {
+
+                                Image("placeholder")
+                                    .resizable()
+                                    .scaledToFit()
+
+                            }
+                            .clipped()
+                            .onTapGesture {
+                                selectedIndex = index
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("All Photos")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") {
+                            openSheet = false
+                        }
+                        .fontWeight(.bold)
+                    }
+                }
+                .fullScreenCover(
+                    isPresented: Binding(
+                        get: {
+                            selectedIndex != nil
+                        },
+                        set: { value in
+                            if !value {
+                                selectedIndex = nil
+                            }
+                        }
+                    )
+                ) {
+
+                    if let index = selectedIndex {
+
+    //                    FullScreenImageViewer(
+    //                        image: image
+    //                    )
+                        ZoomableImageView(images: images, initialIndex: index)
+                    }else{
+                        Text("No Image Available")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+
+                }
+                
+                
             }
-            
-            Button(action: {
-                dismiss()
-            }) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(12)
-                    .background(.ultraThinMaterial)
-                    .environment(\.colorScheme, .dark)
-                    .clipShape(Circle())
-            }
-            .padding()
         }
     }
 }
 
-// MARK: - Zoomable Image View
+
 struct ZoomableImageView: View {
-    let imageName: String
+    @Environment(\.dismiss) var dismiss
+    let images: [String]
+    
+    @State private var selectedIndex: Int
     
     @State private var scale: CGFloat = 1
     @State private var lastScale: CGFloat = 1
     
+    init(images: [String], initialIndex: Int) {
+        self.images = images
+        self._selectedIndex = State(initialValue: initialIndex)
+    }
+    
     var body: some View {
-        AsyncImage(
-            url: URL(string: imageName)
-        ) { image in
-
-            image
-                .resizable()
-                .scaledToFit()
-
-        } placeholder: {
-
-            ProgressView()
-
-        }.scaleEffect(scale)
-            .gesture(
-                MagnificationGesture()
-                    .onChanged { value in
-                        let newScale = lastScale * value
-                        scale = min(max(newScale, 1), 5)
+        ZStack(alignment: .bottom) {
+            Color.black
+                .ignoresSafeArea()
+            
+            VStack{
+                Spacer()
+                TabView(selection: $selectedIndex) {
+                    ForEach(images.indices, id: \.self) { index in
+                    
+                        AsyncImage(url: URL(string: "\(StringConstants.shared.base)/\(images[index])"), content: { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .scaleEffect(selectedIndex == index ? scale : 1.0)
+                                .gesture(
+                                    MagnificationGesture()
+                                        .onChanged { value in
+                                            let newScale = lastScale * value
+                                            scale = min(max(newScale, 1), 5)
+                                        }
+                                        .onEnded { _ in
+                                            lastScale = scale
+                                        }
+                                )
+                                .tag(index)
+                            
+                        }, placeholder: {
+                            ZStack{
+                                Image("placeholder")
+                                    .resizable()
+                                    .scaledToFit()
+                                
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                ProgressView()
+                            }
+                        })
                     }
-                    .onEnded { _ in
-                        lastScale = scale
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .ignoresSafeArea()
+                .onChange(of: selectedIndex) { _ in
+                    scale = 1
+                    lastScale = 1
+                }
+                Spacer()
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 12) {
+                            ForEach(images.indices, id: \.self) { index in
+                                
+                                
+                                AsyncImage(url: URL(string: "\(StringConstants.shared.base)/\(images[index])"), content: { image in
+                                    
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 60, height: 50)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(selectedIndex == index ? Color.white : Color.clear, lineWidth: 3)
+                                        )
+                                        .onTapGesture {
+                                            withAnimation {
+                                                selectedIndex = index
+                                            }
+                                        }
+                                        .id(index)
+                                    
+                                }, placeholder: {
+                                    ZStack{
+                                        Image("placeholder")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 60, height: 50)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        ProgressView()
+                                    }
+                                })
+                            }
+                        }
+                        .padding(.horizontal)
                     }
-            )
-            .ignoresSafeArea()
+                    .onChange(of: selectedIndex) { newIndex in
+                        withAnimation {
+                            proxy.scrollTo(newIndex, anchor: .center)
+                        }
+                    }
+                    .onAppear {
+                        proxy.scrollTo(selectedIndex, anchor: .center)
+                    }
+                }.frame(height: 50)
+            }
+            
+            VStack{
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(.ultraThinMaterial)
+                            .environment(\.colorScheme, .dark)
+                            .clipShape(Circle())
+                    }
+                    .padding()
+                }
+                Spacer()
+            }
+        }
     }
 }
 
@@ -344,5 +452,33 @@ struct GlassCardModifier: ViewModifier {
 extension View {
     func glassCard() -> some View {
         self.modifier(GlassCardModifier())
+    }
+}
+
+
+struct CommonBackgroundView: View{
+    var body: some View{
+        ZStack{
+            LinearGradient(
+                colors: [Color(.systemBackground), Color(.systemGroupedBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+                VStack {
+                    Circle()
+                        .fill(Color.blue.opacity(0.15))
+                        .frame(width: 300, height: 300)
+                        .blur(radius: 60)
+                        .offset(x: -80, y: -100)
+                    Spacer()
+                    Circle()
+                        .fill(Color.purple.opacity(0.12))
+                        .frame(width: 300, height: 300)
+                        .blur(radius: 60)
+                        .offset(x: 80, y: 100)
+                }
+        }
     }
 }

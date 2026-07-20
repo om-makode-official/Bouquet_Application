@@ -2,7 +2,7 @@
 //  AddNewEntityInteractor.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/29/26.
+//  Created by Om on 5/29/26.
 //
 
 import Foundation
@@ -11,6 +11,7 @@ import Alamofire
 
 class AddNewEntityInteractor{
     private let baseURLString = StringConstants.shared.baseUrl
+    private let bouquetBaseUrl = StringConstants.shared.bouquetBaseUrl
     
     func saveEntity(hallName: LocalizedStringModel?,
                     locationAddress: LocalizedStringModel?,
@@ -39,7 +40,6 @@ class AddNewEntityInteractor{
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // 1. Prepare localized nested dictionaries to match backend expectation
         let localizedHallName: [String: String] = [
             "en": hallName?.en ?? "",
             "mr": hallName?.mr ?? "",
@@ -58,21 +58,20 @@ class AddNewEntityInteractor{
             "hi": description?.hi ?? ""
         ]
         
-        // 2. Build HTTP request payload with safe numeric parsing
         let body: [String: Any] = [
             "hallName": localizedHallName,
             "locationAddress": localizedLocationAddress,
             "description": localizedDescription,
             "ownerContact": ownerContact,
-            "latitude": Double(latitude) ?? 0.0,               // Converted to Double
-            "longitude": Double(longitude) ?? 0.0,             // Converted to Double
+            "latitude": Double(latitude) ?? 0.0,
+            "longitude": Double(longitude) ?? 0.0,
             "seatingAvailability": seatingAvailability,
             "hallSize": hallSize,
             "roomCount": Int(roomCount) ?? 0,
             "parkingCars": Int(parkingCars) ?? 0,
             "parkingBikes": Int(parkingBikes) ?? 0,
-            "pricePerDay": Double(pricePerDay) ?? 0.0,         // Converted to Double for BigDecimal mapping
-            "lightBillPerUnit": Double(lightBillPerUnit) ?? 0.0, // Converted to Double for BigDecimal mapping
+            "pricePerDay": Double(pricePerDay) ?? 0.0,
+            "lightBillPerUnit": Double(lightBillPerUnit) ?? 0.0,
             "isACAvailable": isACAvailable,
             "isPowerBackupAvailable": isPowerBackupAvailable,
             "allowsExternalCatering": allowsExternalCatering,
@@ -183,49 +182,70 @@ class AddNewEntityInteractor{
         return false
     }
     
-    
-    
-//    func uploadImage(image: UIImage) async throws -> String {
-//        let uploadURLString = "\(baseURLString)/upload"
-//        
-//        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-//            throw URLError(.badURL)
-//        }
-//        
-//        let res = try await withCheckedThrowingContinuation { continuation in
-//            AF.upload(
-//                multipartFormData: { multipart in
-//                    multipart.append(
-//                        imageData,
-//                        withName: "file",
-//                        fileName: "hall_asset.jpg",
-//                        mimeType: "image/jpeg"
-//                    )
-//                },
-//                to: uploadURLString,
-//                method: .post
-//            )
-//            .validate()
-//            .responseString { response in
-//                switch response.result {
-//                case .success(let imageUrl):
-//                    print("Image uploaded successfully via Alamofire")
-//                    continuation.resume(returning: imageUrl)
-//                    
-//                case .failure(let error):
-//                    print("Alamofire multi-part context failure")
-//                    continuation.resume(throwing: error)
-//                }
-//            }
-//        }
-//        print("Response Path Result:", res)
-//        return res
-//    }
-    
     func loadImage(url: URL ) async throws -> UIImage? {
 
         let (data, _) = try await URLSession.shared.data( from: url )
 
         return UIImage( data: data )
+    }
+    
+    
+}
+
+extension AddNewEntityInteractor{
+    func createBouquet(bouquet: BouquetDetailsEntity) async throws -> BouquetDetailsEntity {
+
+        guard let url = URL(string: bouquetBaseUrl) else {
+            throw URLError(.badURL)
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+    
+
+        request.httpBody = try JSONEncoder().encode(bouquet)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let jsonString =
+                String(
+                    data: data,
+                    encoding: .utf8
+                ) {
+
+                print("bouquet post JSON RESPONSE:")
+                print(jsonString)
+            }
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
+
+        return try JSONDecoder().decode(BouquetDetailsEntity.self, from: data)
+    }
+    func updateBouquet(bouquet: BouquetDetailsEntity, id: Int) async throws -> Bool{
+        
+        
+        let urlString = "\(bouquetBaseUrl)/\(id)"
+        
+        guard let url = URL(string: urlString) else { return false }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        urlRequest.httpBody = try JSONEncoder().encode(bouquet)
+        
+        let response = try await URLSession.shared.data(for: urlRequest)
+        guard let res = response.1 as? HTTPURLResponse else { return false }
+        
+        if res.statusCode == 200 {
+            let data = try JSONDecoder().decode(BouquetDetailsEntity.self, from: response.0)
+            print("Response Data Updated Successfully:", data)
+            return true
+        }
+        print("Update Failed Status:", response.1)
+        return false
     }
 }

@@ -2,7 +2,7 @@
 //  AddNewEntityView.swift
 //  Project_B
 //
-//  Created by Sai Krishna on 5/28/26.
+//  Created by Om on 5/28/26.
 //
 
 import Foundation
@@ -13,22 +13,26 @@ struct AddNewEntityView: View {
     
     @StateObject var presenter: AddNewEntityPresenter
     @State private var isShowingMapPicker = false
-    @State private var selectedLanguage: AppLanguage = .en
     
     var body: some View {
-//        NavigationView {
             ZStack {
                 Form {
                     languageSelectorSection
                     localizedInformationSection
+                    if presenter.identifier == "resort"{
+                        capacityLogisticsSection
+                        pricingUtilitiesSection
+                        amenitiesRulesSection
+                    }
+                    else if presenter.identifier == "bouquet"{
+                        addFlowersView
+                        bouquetInfoView
+                    }
                     mediaPhotosSection
                     geolocationSection
-                    capacityLogisticsSection
-                    pricingUtilitiesSection
-                    amenitiesRulesSection
                     saveButtonSection
                 }
-                .navigationTitle(presenter.entity != nil ? "Edit Details" : "Add New")
+                .navigationTitle(presenter.getTitle())
                 .navigationBarTitleDisplayMode(.inline)
                 
                 if presenter.isLoading {
@@ -41,7 +45,6 @@ struct AddNewEntityView: View {
                     }
                 }
             }
-//        }
         .sheet(isPresented: $isShowingMapPicker) {
             MapPickerView(
                 initialLatitude: Double(presenter.latitude) ?? 0.0,
@@ -55,7 +58,7 @@ struct AddNewEntityView: View {
     
     var languageSelectorSection: some View {
         Section(header: Text("Data Entry Language").foregroundColor(.accentColor)) {
-            Picker("Select Input Language", selection: $selectedLanguage) {
+            Picker("Select Input Language", selection: $presenter.selectedLanguage) {
                 ForEach(AppLanguage.allCases) { lang in
                     Text("\(lang.displayName)").tag(lang)
                 }
@@ -66,30 +69,30 @@ struct AddNewEntityView: View {
     }
     
     var localizedInformationSection: some View {
-        let currentLangName = selectedLanguage.displayName
+        let currentLangName = presenter.selectedLanguage.displayName
         
         return Section(header: Text("Basic Details (\(currentLangName))").foregroundColor(.accentColor)) {
             
             HStack {
-                TextField("Hall Name (\(currentLangName))", text: Binding(
+                TextField("Name (\(currentLangName))", text: Binding(
                     get: {
-                        switch selectedLanguage {
-                        case .en: return presenter.hallNameLanguages?.en ?? ""
-                        case .mr: return presenter.hallNameLanguages?.mr ?? ""
-                        case .hi: return presenter.hallNameLanguages?.hi ?? ""
+                        switch presenter.selectedLanguage {
+                        case .en: return presenter.nameLanguages?.en ?? ""
+                        case .mr: return presenter.nameLanguages?.mr ?? ""
+                        case .hi: return presenter.nameLanguages?.hi ?? ""
                         }
                     },
                     set: { newValue in
-                        switch selectedLanguage {
-                        case .en: presenter.hallNameLanguages?.en = newValue
-                        case .mr: presenter.hallNameLanguages?.mr = newValue
-                        case .hi: presenter.hallNameLanguages?.hi = newValue
+                        switch presenter.selectedLanguage {
+                        case .en: presenter.nameLanguages?.en = newValue
+                        case .mr: presenter.nameLanguages?.mr = newValue
+                        case .hi: presenter.nameLanguages?.hi = newValue
                         }
                     }
                 ))
                 .autocorrectionDisabled()
                 
-                Text(selectedLanguage.rawValue.uppercased())
+                Text(presenter.selectedLanguage.rawValue.uppercased())
                     .font(.caption2)
                     .fontWeight(.bold)
                     .padding(5)
@@ -101,14 +104,14 @@ struct AddNewEntityView: View {
             HStack {
                 TextField("Address / Location (\(currentLangName))", text: Binding(
                     get: {
-                        switch selectedLanguage {
+                        switch presenter.selectedLanguage {
                         case .en: return presenter.addressLanguages?.en ?? ""
                         case .mr: return presenter.addressLanguages?.mr ?? ""
                         case .hi: return presenter.addressLanguages?.hi ?? ""
                         }
                     },
                     set: { newValue in
-                        switch selectedLanguage {
+                        switch presenter.selectedLanguage {
                         case .en: presenter.addressLanguages?.en = newValue
                         case .mr: presenter.addressLanguages?.mr = newValue
                         case .hi: presenter.addressLanguages?.hi = newValue
@@ -116,7 +119,7 @@ struct AddNewEntityView: View {
                     }
                 ))
                 
-                Text(selectedLanguage.rawValue.uppercased())
+                Text(presenter.selectedLanguage.rawValue.uppercased())
                     .font(.caption2)
                     .fontWeight(.bold)
                     .padding(5)
@@ -128,14 +131,14 @@ struct AddNewEntityView: View {
             ZStack(alignment: .topLeading) {
                 let descriptionBinding = Binding<String>(
                     get: {
-                        switch selectedLanguage {
+                        switch presenter.selectedLanguage {
                         case .en: return presenter.descriptionLanguages?.en ?? ""
                         case .mr: return presenter.descriptionLanguages?.mr ?? ""
                         case .hi: return presenter.descriptionLanguages?.hi ?? ""
                         }
                     },
                     set: { newValue in
-                        switch selectedLanguage {
+                        switch presenter.selectedLanguage {
                         case .en: presenter.descriptionLanguages?.en = newValue
                         case .mr: presenter.descriptionLanguages?.mr = newValue
                         case .hi: presenter.descriptionLanguages?.hi = newValue
@@ -196,7 +199,7 @@ struct AddNewEntityView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
-                        PhotosPicker(selection: $presenter.gallerySelection, maxSelectionCount: 10, matching: .images, photoLibrary: .shared()) {
+                        PhotosPicker(selection: $presenter.gallerySelection, maxSelectionCount: 20, matching: .images, photoLibrary: .shared()) {
                             RoundedRectangle(cornerRadius: 8)
                                 .fill(Color(.systemGray5))
                                 .frame(width: 80, height: 80)
@@ -289,22 +292,16 @@ struct AddNewEntityView: View {
                     .multilineTextAlignment(.trailing)
                     .frame(width: 100)
             }
-//            
-//            Stepper("Available Guest Rooms: \(presenter.roomCount)", value: $presenter.roomCount, in: 0...50)
-//            
             VStack(alignment: .leading, spacing: 10) {
                 Text("Parking Capacity").font(.subheadline)
                 HStack {
                     Image(systemName: "car.fill").foregroundColor(.gray)
-//                    HStack {
                         Text("Cars: ")
                         Spacer()
                         TextField("0", text: $presenter.parkingCars)
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
-//                    }
-//                    Stepper("Cars: \(presenter.parkingCars)", value: $presenter.parkingCars, in: 0...500)
                 }
                 HStack {
                     Image(systemName: "bicycle").foregroundColor(.gray)
@@ -316,7 +313,6 @@ struct AddNewEntityView: View {
                         .multilineTextAlignment(.trailing)
                         .frame(width: 100)
                     
-//                    Stepper("Bikes: \(presenter.parkingBikes)", value: $presenter.parkingBikes, in: 0...1000)
                 }
             }
             .padding(.vertical, 4)
@@ -378,19 +374,128 @@ struct AddNewEntityView: View {
     var saveButtonSection: some View {
         Section {
             Button(action: {
-                if presenter.entity != nil {
-                    presenter.updateEntity()
-                } else {
-                    presenter.uploadImages()
-                }
+                presenter.onTapSaveUpdateButton()
+                
             }, label: {
-                Text(presenter.entity != nil ? "Update" : "Save")
+                Text(presenter.getSaveUpdateText())
                     .bold()
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 4)
             })
             .listRowBackground(Color.accentColor)
+        }
+    }
+}
+
+
+extension AddNewEntityView{
+    var addFlowersView: some View{
+        Section("Add Flowers"){
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    TextField("Flower Name(\(presenter.selectedLanguage.displayName))",
+                        text: $presenter.flowerName
+                    )
+                    .textFieldStyle(.roundedBorder)
+                    .autocorrectionDisabled()
+
+
+                    Button {
+                        presenter.addFlower(name: presenter.flowerName)
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(presenter.flowerName.isEmpty)
+                }
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+
+                        ForEach(presenter.flowers.indices, id: \.self) { index in
+
+                            HStack(spacing: 4) {
+
+                                Text(presenter.flowers[index].getDetails())
+
+                                Button {
+                                    presenter.removeFlower(at: index)
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .font(.caption)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.2))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var bouquetInfoView: some View{
+        let currentLangName = presenter.selectedLanguage.displayName
+        return Section(header: Text("Bouquet Info")) {
+            VStack(alignment: .leading, spacing: 8){
+                Text("Seller Shop Name")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                TextField("Enter Shop Name (\(currentLangName))", text: Binding(
+                    get: {
+                        switch presenter.selectedLanguage {
+                        case .en: return presenter.bouquetShopName?.en ?? ""
+                        case .mr: return presenter.bouquetShopName?.mr ?? ""
+                        case .hi: return presenter.bouquetShopName?.hi ?? ""
+                        }
+                    },
+                    set: { newValue in
+                        switch presenter.selectedLanguage {
+                        case .en: presenter.bouquetShopName?.en = newValue
+                        case .mr: presenter.bouquetShopName?.mr = newValue
+                        case .hi: presenter.bouquetShopName?.hi = newValue
+                        }
+                    }
+                ))
+            }
+            
+            HStack {
+                Text("Price")
+                Spacer()
+                Text("Rs.").foregroundColor(.gray)
+                TextField("0.00", text: $presenter.bouquetPrice)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width: 100)
+            }
+            
+            HStack{
+                Text("Size")
+                TextField("Width", text: $presenter.sizeWidth)
+                    .keyboardType(.decimalPad)
+                Divider()
+                TextField("Height", text: $presenter.sizeHeight)
+                    .keyboardType(.decimalPad)
+            }
+            
+            
+            VStack(alignment: .leading, spacing: 8){
+                Text("Availability")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                Picker("Cancellation Policy", selection: $presenter.selectedAvailability) {
+                    ForEach(presenter.availabilityInfo, id: \.self) { availability in
+                        Text(availability).tag(availability)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.vertical, 2)
+            }
         }
     }
 }
