@@ -16,7 +16,28 @@ struct LoginScreenView: View {
     @StateObject var presenter: LoginScreenPresenter
     
     var body: some View {
-        CommonBackgroundView()
+        ZStack{
+            LinearGradient(
+                colors: [Color(.systemBackground), Color(.systemGroupedBackground)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+                VStack {
+                    Circle()
+                        .fill(Color.blue.opacity(0.15))
+                        .frame(width: 300, height: 300)
+                        .blur(radius: 60)
+                        .offset(x: -80, y: -100)
+                    Spacer()
+                    Circle()
+                        .fill(Color.purple.opacity(0.12))
+                        .frame(width: 300, height: 300)
+                        .blur(radius: 60)
+                        .offset(x: 80, y: 100)
+                }
+        
             
             ScrollView {
                 VStack(spacing: 32) {
